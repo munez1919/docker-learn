@@ -1,8 +1,14 @@
 from flask import Flask
 import redis
 import os
+from prometheus_flask_exporter import PrometheusMetrics
+
+# Создаём папку logs, если её нет
+if not os.path.exists('logs'):
+    os.makedirs('logs')
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 # Подключаемся к Redis
 r = redis.Redis(host='redis', port=6379, decode_responses=True)
